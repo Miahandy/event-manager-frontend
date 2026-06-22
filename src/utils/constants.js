@@ -1,0 +1,16 @@
+export const EVENT_STATUS = {
+    DRAFT: 'BROUILLON',
+    PUBLISHED: 'PUBLIE',
+    CANCELLED: 'ANNULE',
+    FINISHED: 'PASSE',
+};
+
+export const INSCRIPTION_STATUS = {
+    PENDING: 'EN_ATTENTE',
+    CONFIRMED: 'CONFIRME',
+    CANCELLED: 'ANNULEE',
+};
+
+export const API_TIMEOUT = 10000;
+
+export default EVENT_STATUS;

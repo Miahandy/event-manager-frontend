@@ -1,0 +1,84 @@
+.hero {
+  position: relative;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 22% 25%, rgba(168, 85, 247, 0.35), transparent 42%),
+    radial-gradient(circle at 78% 15%, rgba(236, 19, 120, 0.28), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(109, 40, 217, 0.35), transparent 55%),
+    linear-gradient(180deg, #0b0b13 0%, #181225 55%, #0b0b13 100%);
+}
+
+/* Faisceaux de lumière façon scène de concert, en CSS pur */
+.hero__beam {
+  position: absolute;
+  top: -10%;
+  width: 140px;
+  height: 130%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 70%);
+  filter: blur(6px);
+  animation: hero-sway 7s ease-in-out infinite;
+}
+
+.hero__beam--1 {
+  left: 12%;
+  transform: rotate(10deg);
+  background: linear-gradient(180deg, rgba(168, 85, 247, 0.25), transparent 70%);
+  animation-delay: 0s;
+}
+
+.hero__beam--2 {
+  left: 48%;
+  transform: rotate(-6deg);
+  background: linear-gradient(180deg, rgba(236, 19, 120, 0.2), transparent 70%);
+  animation-delay: 1.5s;
+}
+
+.hero__beam--3 {
+  left: 78%;
+  transform: rotate(8deg);
+  background: linear-gradient(180deg, rgba(168, 85, 247, 0.18), transparent 70%);
+  animation-delay: 3s;
+}
+
+@keyframes hero-sway {
+  0%, 100% { transform: rotate(8deg) translateX(0); opacity: 0.7; }
+  50% { transform: rotate(-4deg) translateX(20px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__beam {
+    animation: none;
+  }
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  padding: 0 24px;
+}
+
+.hero__title {
+  color: #ffffff;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+}
+
+.hero__subtitle {
+  color: #d8d6e3;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    min-height: 440px;
+  }
+}
