@@ -1,4 +1,4 @@
-import api from "../api/api";
+import api from "../services/api";
 import { useState } from "react";
 
 const InscriptionButton = ({ eventId }) => {

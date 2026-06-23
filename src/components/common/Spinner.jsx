@@ -1,11 +1,11 @@
 import React from "react";
+import "./Spinner.css";
 
-export function Spinner () {
-    return (
-        <div className="flex justify-center items-center p-4">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2"></div>
-        </div>
-    );
-};
-
-export default Spinner;
+export default function Spinner({ size = "md", label = "Chargement…" }) {
+  return (
+    <div className={`spinner-wrap spinner-wrap--${size}`} role="status" aria-label={label}>
+      <div className="spinner-ring" />
+      {label && <span className="spinner-label">{label}</span>}
+    </div>
+  );
+}

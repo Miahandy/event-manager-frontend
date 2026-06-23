@@ -1,10 +1,5 @@
-import api from './api';
+import api from "./api";
 
-const categoryService = {
-    getCategories: async () => {
-        const response = await api.get('/categorie');
-        return response.data;
-    },
-};
-
-export default categoryService;
+export const getCategories  = ()     => api.get("/categories").then(r => r.data);
+export const createCategory = (data) => api.post("/categories", data).then(r => r.data);
+export const deleteCategory = (id)   => api.delete(`/categories/${id}`).then(r => r.data);

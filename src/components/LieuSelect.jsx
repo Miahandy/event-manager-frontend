@@ -1,32 +1,25 @@
 import { useEffect, useState } from "react";
+//import { useFetch } from "../hooks/useFetch";
+import { getLieux } from "../services/lieuService";
 import api from "../services/api";
 
-const LieuSelect = ({ value, onChange }) => {
-  const [lieux, setLieux] = useState([]);
 
-  useEffect(() => {
-    const fetchLieux = async () => {
-      try {
-        const res = await api.get("/lieux");
-        setLieux(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchLieux();
-  }, []);
+export default function LieuSelect({ value, onChange, name = "lieu_id", required }) {
+  const { data, loading } = useFetch(getLieux);
 
   return (
-    <select value={value} onChange={(e) => onChange(e.target.value)}>
-      <option value="">Choisir un lieu</option>
-      {lieux.map((l) => (
-        <option key={l.id} value={l.id}>
-          {l.name}
-        </option>
+    <select
+      name={name}
+      value={value}
+      onChange={onChange}
+      required={required}
+      className="auth-form__input auth-form__select"
+      disabled={loading}
+    >
+      <option value="">{loading ? "Chargement…" : "-- Choisir un lieu --"}</option>
+      {data?.map(l => (
+        <option key={l.id} value={l.id}>{l.nom}</option>
       ))}
     </select>
   );
-};
-
-export default LieuSelect;
+}

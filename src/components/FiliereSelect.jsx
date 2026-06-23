@@ -1,32 +1,22 @@
-import { useEffect, useState } from "react";
-import api from "../services/api";
+import { useFetch } from "../hooks/useFetch";
+import { getFilieres } from "../services/filiereService";
 
-const LieuSelect = ({ value, onChange }) => {
-  const [lieux, setLieux] = useState([]);
-
-  useEffect(() => {
-    const fetchLieux = async () => {
-      try {
-        const res = await api.get("/lieux");
-        setLieux(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchLieux();
-  }, []);
+export default function FiliereSelect({ value, onChange, name = "filiere_id", required }) {
+  const { data, loading } = useFetch(getFilieres);
 
   return (
-    <select value={value} onChange={(e) => onChange(e.target.value)}>
-      <option value="">Choisir un lieu</option>
-      {lieux.map((l) => (
-        <option key={l.id} value={l.id}>
-          {l.name}
-        </option>
+    <select
+      name={name}
+      value={value}
+      onChange={onChange}
+      required={required}
+      className="auth-form__input auth-form__select"
+      disabled={loading}
+    >
+      <option value="">{loading ? "Chargement…" : "-- Choisir une filière --"}</option>
+      {data?.map(f => (
+        <option key={f.id} value={f.id}>{f.nom}</option>
       ))}
     </select>
   );
-};
-
-export default LieuSelect;
+}

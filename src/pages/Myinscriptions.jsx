@@ -1,35 +1,46 @@
-import { useEffect, useState } from "react";
-import api from "../services/api";
+//import { useFetch } from "../hooks/useFetch";
+import { getMyInscriptions } from "../services/inscriptionService";
 import StatusBadge from "../components/StatusBadge";
+import Spinner from "../components/common/Spinner";
+import { formatDate } from "../utils/formatDate";
+import "./MyInscriptions.css";
 
-const MyInscriptions = () => {
-  const [inscriptions, setInscriptions] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await api.get("/inscriptions/me");
-        setInscriptions(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchData();
-  }, []);
+export default function MyInscriptions() {
+  const { data: inscriptions, loading, error, refetch } = useFetch(getMyInscriptions);
 
   return (
-    <div>
-      <h2>Mes inscriptions</h2>
+    <main className="my-inscriptions">
+      <h1 className="my-inscriptions__title">Mes inscriptions</h1>
 
-      {inscriptions.map((ins) => (
-        <div key={ins.id}>
-          <p>{ins.event?.title}</p>
-          <StatusBadge status={ins.status} />
+      {loading && <Spinner label="Chargement…" />}
+      {error   && <p className="dashboard__error">{error}</p>}
+
+      {!loading && inscriptions?.length === 0 && (
+        <p className="dashboard__empty">Vous n'êtes inscrit à aucun événement pour le moment.</p>
+      )}
+
+      {inscriptions?.length > 0 && (
+        <div className="inscriptions-grid">
+          {inscriptions.map(insc => (
+            <div key={insc.id} className="insc-card">
+              <div className="insc-card__top">
+                <h3 className="insc-card__titre">{insc.evenement?.titre ?? "Événement"}</h3>
+                <StatusBadge statut={insc.statut} type="inscription" />
+              </div>
+
+              <p className="insc-card__meta">
+                📅 {formatDate(insc.evenement?.date_debut)}
+              </p>
+              {insc.evenement?.lieu && (
+                <p className="insc-card__meta">📍 {insc.evenement.lieu}</p>
+              )}
+              <p className="insc-card__date">
+                Inscrit le {formatDate(insc.date_inscription)}
+              </p>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      )}
+    </main>
   );
-};
-
-export default MyInscriptions;
+}

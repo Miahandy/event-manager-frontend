@@ -1,31 +1,21 @@
 import React from "react";
-export function Input ({
-    label,
-    type ='text',
-    name,
-    email,
-    value,
-    onchange,
-    placeholder,
-    required = false,
+import "./Input.css";
+
+/**
+ * Input réutilisable avec label et message d'erreur intégrés.
+ */
+export default function Input({
+  label,
+  id,
+  error,
+  className = "",
+  ...rest
 }) {
-    return (
-        <div className="mb-4">
-            {label && (
-                <label className="block mb-1 font-medium">
-                    {label}
-                </label>
-            )}
-            <input 
-            type={type}
-            name={name}
-            value={email}
-            onChange={onchange}
-            placeholder={placeholder}
-            required={required}
-            className="w-full border rounded px-3 py-2"
-            />
-        </div>
-    );
-};
-export default Input;
+  return (
+    <div className={`input-group ${className}`}>
+      {label && <label htmlFor={id} className="input-group__label">{label}</label>}
+      <input id={id} className={`input-group__field ${error ? "input-group__field--error" : ""}`} {...rest} />
+      {error && <span className="input-group__error">{error}</span>}
+    </div>
+  );
+}

@@ -1,21 +1,32 @@
 import React from "react";
+import "./Button.css";
 
-export function Button ({
-    Children,
-    type = 'button',
-    onClick,
-    className = '',
-    disabled = false,
+/**
+ * Bouton réutilisable.
+ * variant : "primary" | "secondary" | "danger" | "ghost"
+ * size    : "sm" | "md" | "lg"
+ */
+export default function Button({
+  children,
+  variant = "primary",
+  size = "md",
+  loading = false,
+  disabled = false,
+  type = "button",
+  onClick,
+  className = "",
+  ...rest
 }) {
-    return (
-        <button
-        type={type}
-        onClick={onClick}
-        disabled={disabled}
-        className={`px-4 py-2 rounded font-medium transition ${className}`}>
-            Enfant
-        </button>
-    );
-};
-
-export default Button;
+  return (
+    <button
+      type={type}
+      className={`btn btn--${variant} btn--${size} ${loading ? "btn--loading" : ""} ${className}`}
+      disabled={disabled || loading}
+      onClick={onClick}
+      {...rest}
+    >
+      {loading && <span className="btn__spinner" aria-hidden="true" />}
+      {children}
+    </button>
+  );
+}

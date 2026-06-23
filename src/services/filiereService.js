@@ -1,10 +1,5 @@
-import api from './api';
+import api from "./api";
 
-const fliereService = {
-    getFiliere: async () => {
-        const response = await api.get('/filieres');
-        return response.data;
-    },
-};
-
-export default filiereService;
+export const getFilieres    = ()     => api.get("/filieres").then(r => r.data);
+export const createFiliere  = (data) => api.post("/filieres", data).then(r => r.data);
+export const deleteFiliere  = (id)   => api.delete(`/filieres/${id}`).then(r => r.data);

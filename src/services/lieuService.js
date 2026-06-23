@@ -1,10 +1,5 @@
-import api from './api';
+import api from "./api";
 
-const lieuService = {
-    getLieux: async () => {
-        const response = await api.get('/lieux');
-        return response.data;
-    },
-};
-
-export default lieuService;
+export const getLieux    = ()     => api.get("/lieux").then(r => r.data);
+export const createLieu = (data) => api.post("/lieux", data).then(r => r.data);
+export const deleteLieu = (id)   => api.delete(`/lieux/${id}`).then(r => r.data);

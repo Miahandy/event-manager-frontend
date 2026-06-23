@@ -3,17 +3,6 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { Children } from "react";
 
-
-/**
- * Protège une route :
- * - Redirige vers /login si non connecté
- * - Redirige vers /unauthorized si le rôle ne correspond pas
- *
- * Usage :
- *   <ProtectedRoute allowedRoles={["admin"]}>
- *     <DashboardAdmin />
- *   </ProtectedRoute>
- */
 export default function ProtectedRoute({ children, allowedRoles }) {
   const { isAuthenticated, user } = useAuth();
   const location = useLocation();

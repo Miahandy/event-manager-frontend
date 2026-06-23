@@ -1,22 +1,7 @@
-import api from './api';
+import api from "./api";
 
-const inscriptionService = {
-    inscrire: async (eventId) => {
-        const response = await api.post('/inscriptions', {
-            eventId,
-        });
-        return response.data;
-    },
-
-    getMyInscriptions: async () => {
-        const response = await api.get('/inscriptions/me');
-        return response.data;
-    },
-
-    annulerInscription: async (id) => {
-        const response = await api.delete(`inscriptions/${id}`);
-        return response.data;
-    },
-};
-
-export default inscriptionService;
+export const getMyInscriptions = () => api.get("/inscriptions/mes-inscriptions").then(r => r.data);
+export const getAllInscriptions = () => api.get("/inscriptions").then(r => r.data);
+export const inscrireEvent = (eventId) => api.post("/inscriptions", { evenement_id: eventId }).then(r => r.data);
+export const updateStatutInscription = (id, statut) => api.put(`/inscriptions/${id}/statut`, { statut }).then(r => r.data);
+export const deleteInscription = (id) => api.delete(`/inscriptions/${id}`).then(r => r.data);

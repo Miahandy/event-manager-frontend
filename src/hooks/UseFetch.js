@@ -1,30 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-const useFetch = (fecthFunction) => {
-    const [data, setData] =useState(null);
-    const [loading, setLoading] = useState(null);
-    const [error, setError] = useState(null);
+export function useFetch(fetchFn, deps = []) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const loadData = async () => {
-            try {
-                const result = await fecthFuntion();
-                setData(result);
-            }   catch (err) {
-                setError(err);
-            }    finally {
-                setLoading(false)
-            }
-        };
+  const fetch = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await fetchFn();
+      setData(result);
+    } catch (err) {
+      setError(err.response?.data?.detail || err.message || "Erreur lors du chargement.");
+    } finally {
+      setLoading(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 
-        loadData();
-    }, [fecthFunction]);
+  useEffect(() => { fetch(); }, [fetch]);
 
-    return {
-        data,
-        loading,
-        error,
-    };
-};
+  return { data, loading, error, refetch: fetch };
+}
 
-export default useEffect;
